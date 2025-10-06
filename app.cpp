@@ -50,7 +50,7 @@ public:
 };
 
 vector<Ship> createShips(){
-    int numberOfShips = 1;
+    int numberOfShips = 5;
     vector<Ship> gameShips;
     vector<int> shipSize = {0,6,4,3,3,2};
     Ship HeadShip(-1,-1);
@@ -268,12 +268,11 @@ int main()
     Field bob(10,10,"player 2");
     cout<<"Set Ships -> "<<alice.name<<" \n";
     setGameShips(alice);
+    alice.showPosition();
     cout<<endl;
     cout<<"Set Ships -> "<<bob.name<<" \n";
     setGameShips(bob);
-
-    //final position after placing the battleships
-    alice.showPosition();
+    bob.showPosition();
 
     //start the battle
     startBattle(alice,bob);
