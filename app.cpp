@@ -85,45 +85,65 @@ public:
         numberOfShips = Ships.size();
         activeShips = numberOfShips;
     }
+
+    // Hacktoberfest 2025: Added diagonal ship placement (angle = 2)
+
     bool placeShip(string &cell, int angle, int shipid){
-        if(cell.size()!=2 || (angle!=0 && angle!=1)){return false;}
-        int row = cell[0]-'0';
-        int col = cell[1]-'0';
-        Ship &ship = Ships[shipid];
-        int len = ship.getLength();
-        if(row<0 || row>=rows || col<0 || col>=cols){
-            return false;
-        }
-        if(angle==0){
-            int newc = col+len-1;
-            if(newc>=cols){
-                return false;
-            }
-            for(int pos = col; pos<=newc; pos++){
-                if(position[row][pos]!=0){
-                    return false;
-                }
-            }
-            for(int pos = col; pos<=newc; pos++){
-                position[row][pos] = shipid;
-            }
-        }else if(angle==1){
-            int newr = row+len-1;
-            if(newr>=rows){
-                return false;
-            }
-            for(int pos = row; pos<=newr; pos++){
-                if(position[pos][col]!=0){
-                    return false;
-                }
-            }
-            for(int pos = row; pos<=newr; pos++){
-                position[pos][col] = shipid;
-            }
-        }
-        ship.setPosition(row, col ,angle);
-        return true;   
+    // Hacktoberfest 2025: Added diagonal ship placement (angle = 2)
+    if (cell.size() != 2 || (angle != 0 && angle != 1 && angle != 2)) {
+        return false;
     }
+
+    int row = cell[0] - '0';
+    int col = cell[1] - '0';
+    Ship &ship = Ships[shipid];
+    int len = ship.getLength();
+
+    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+        return false;
+    }
+
+    // --- Horizontal placement ---
+    if (angle == 0) {
+        int newc = col + len - 1;
+        if (newc >= cols) return false;
+        for (int pos = col; pos <= newc; pos++) {
+            if (position[row][pos] != 0) return false;
+        }
+        for (int pos = col; pos <= newc; pos++) {
+            position[row][pos] = shipid;
+        }
+    }
+
+    // --- Vertical placement ---
+    else if (angle == 1) {
+        int newr = row + len - 1;
+        if (newr >= rows) return false;
+        for (int pos = row; pos <= newr; pos++) {
+            if (position[pos][col] != 0) return false;
+        }
+        for (int pos = row; pos <= newr; pos++) {
+            position[pos][col] = shipid;
+        }
+    }
+
+    // --- Diagonal placement (new feature) ---
+    else if (angle == 2) {
+        int newr = row + len - 1;
+        int newc = col + len - 1;
+        if (newr >= rows || newc >= cols) return false;
+        for (int i = 0; i < len; i++) {
+            if (position[row + i][col + i] != 0) return false;
+        }
+        for (int i = 0; i < len; i++) {
+            position[row + i][col + i] = shipid;
+        }
+    }
+
+    ship.setPosition(row, col, angle);
+    return true;
+}
+
     int getShipCount(){
         return numberOfShips;
     }
@@ -209,11 +229,13 @@ void setGameShips(Field &player){
         player.showPosition();
         cout<<"Current Ship: ";
         player.getShip(shipid);
-        cout<<"\nEnter starting cell: ";
+        cout << "Placing ship diagonally from (" << row << "," << col << ")\n";
+
         string coordinates;
         int angle;
         cin>>coordinates;
-        cout<<"Enter angle (0 = horizontal, 1 = vertical): ";
+        cout<<"Enter angle (0 = horizontal, 1 = vertical, 2 = diagonal): ";
+
         cin>>angle;
         if(!player.placeShip(coordinates,angle,shipid)){
             cout<<"Invalid positioning (try again)\n";
