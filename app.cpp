@@ -268,8 +268,9 @@ int main()
     Field bob(10,10,"player 2");
     cout<<"Set Ships -> "<<alice.name<<" \n";
     setGameShips(alice);
-    //cout<<"\nSet Ships (Bob)\n";
-    //setGameShips(bob);
+    cout<<endl;
+    cout<<"Set Ships -> "<<bob.name<<" \n";
+    setGameShips(bob);
 
     //final position after placing the battleships
     alice.showPosition();
