@@ -52,7 +52,7 @@ public:
 vector<Ship> createShips(){
     int numberOfShips = 1;
     vector<Ship> gameShips;
-    vector<int> shipSize = {0,2};
+    vector<int> shipSize = {0,6,4,3,3,2};
     Ship HeadShip(-1,-1);
     gameShips.push_back(HeadShip);
     for(int shipid = 1; shipid<=numberOfShips; shipid++){
@@ -172,7 +172,7 @@ public:
         return false;
     }
     bool lost(){
-        return activeShips<=0;
+        return activeShips<=1;
     }
     template <typename T>
     void displayField(vector<vector<T>> grid){
@@ -238,7 +238,6 @@ bool takeShot(Field &defender, int &pidx){
     }
     defender.showStatus();
     cout<<"Your Attack on Grid shown above:\n ------------\n";
-
     return defender.lost();
 }
 
@@ -255,7 +254,7 @@ void startBattle(Field &alice, Field &bob){
         bool result = takeShot(player[pidx^1], pidx);
         if(result == true){
             cout<<"==========================\n";
-            cout<<"----- All Ships Destroyed -----";
+            cout<<"----- All Ships Destroyed -----\n";
             cout<<(player[pidx].name)<<" wins!";
             game = false;
         }
