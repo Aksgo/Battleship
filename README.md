@@ -9,7 +9,7 @@
     ```
    git clone https://github.com/Aksgo/Battleship.git
    ```
-2. ```
+   ```
    cd ./BattleShip
    ```
 3. Run the executable
@@ -22,3 +22,4 @@
 Contributors are welcomed. 
 
 Please read CONTRIBUTION.md
+
