@@ -3,9 +3,9 @@
 using namespace std;
 
 struct states{
-    string active = "S";
-    string killed = "B";
-    string empty = ".";
+    string ship = "S";
+    string killed = "X";
+    string unharmed = ".";
 };
 class Ship{
 private:
@@ -53,7 +53,6 @@ vector<Ship> createShips(){
     return gameShips;
 }
 
-
 class Field{
 private:
     int rows;
@@ -69,13 +68,13 @@ public:
         name = pname;
         rows = nRows;
         cols = nCols;
-        status.resize(rows,vector<string>(cols,state.empty));
+        status.resize(rows,vector<string>(cols,state.unharmed));
         // 0 means no ship
         position.resize(rows,vector<int>(cols,0));
         Ships = createShips();
         numberOfShips = Ships.size();
     }
-    bool placeShip(string cell, int angle, int shipid){
+    bool placeShip(string &cell, int angle, int shipid){
         if(cell.size()!=2 || (angle!=0 && angle!=1)){return false;}
         int row = cell[0]-'0';
         int col = cell[1]-'0';
@@ -126,7 +125,22 @@ public:
     void showPosition(){
         displayField(position);
     }
+    bool killCell(string &cell){
+        if(cell.size()!=2){return false;}
+        int row = cell[0]-'0';
+        int col = cell[1]-'0';
+        if(row<0 || row>=rows || col<0 || col>=cols){
+            return false;
+        }
+        status[row][col] = state.killed;
+        int shipid = position[row][col];
+        if(shipid==0){
+            return true;
+        }
+        status[row][col] = state.ship;
 
+
+    }
     template <typename T>
     void displayField(vector<vector<T>> grid){
         cout<<"Grid of "<<name<<endl<<"----------\n";
@@ -135,18 +149,18 @@ public:
             cout<<i<<" | ";
         }
         cout<<endl;
-        cout<<"  ";
+        cout<<"   ";
         for(int j=0; j<cols; j++){
-            cout<<"----";
+            cout<<"====";
         }
         cout<<endl;
         for(int i = 0; i<rows; i++){
-            cout<<i<<" | ";
+            cout<<i<<"|| ";
             for(int j = 0; j<cols; j++){
                 cout<<grid[i][j]<<" | ";
             }
             cout<<endl;
-            cout<<"  ";
+            cout<<"   ";
             for(int j=0; j<cols; j++){
                 cout<<"----";
             }
@@ -176,15 +190,34 @@ void setGameShips(Field &player){
     }
     cout<<"Ship Setup successful for player "<<player.name<<endl;
 }
-void startBatle
 
+void takeShot(Field &defender){
+    string cell;
+    cout<<"Enter the row-column to attack :";
+    cin>>cell;
+    int row = cell[0]
+    defender.killCell(row,col);
+    defender.showStatus();
+}
+
+void startBattle(Field &alice, Field &bob){
+    cout<<"=========Game Start==============\n\n";
+    vector<Field> player = {alice, bob};
+    int pidx = 0;
+    bool game = true;
+    while(game){
+        cout<<player[pidx].name<<" turn's\n";
+        takeShot(player[pidx^1]);
+        pidx = pidx^1;
+    }
+}
 int main()
 {
 
     //grids for both players
     Field alice(10,10,"player 1");
     Field bob(10,10,"player 2");
-    cout<<"Set Ships (Alice)\n";
+    cout<<"Set Ships -> "<<alice.name<<" \n";
     setGameShips(alice);
     //cout<<"\nSet Ships (Bob)\n";
     //setGameShips(bob);
