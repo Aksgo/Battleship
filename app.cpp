@@ -11,6 +11,7 @@ class Ship{
 private:
     int shipid;
     int length;
+    int shipHealth;
     int angle; // 0 -> horizontal 1 -> vertical
     //top/left coordinates of ship
     int corX;
@@ -19,6 +20,7 @@ public:
     Ship(int  new_sz, int new_shipid){
         length = new_sz;
         shipid = new_shipid;
+        shipHealth = length;
     }
     void showDetails(){
         cout<<"length : "<<length;
@@ -33,17 +35,24 @@ public:
     int getLength(){
         return length;
     }
-    void setPosition(int x, int y, int angle){
+    int getAngle(){
+        return angle;
+    }
+    void setPosition(int x, int y, int shipAngle){
         corX = x;
         corY = y;
-        angle = angle;
+        angle = shipAngle;
+    }
+    bool attack(){
+        shipHealth--;
+        return shipHealth<=0;
     }
 };
 
 vector<Ship> createShips(){
-    int numberOfShips = 5;
+    int numberOfShips = 1;
     vector<Ship> gameShips;
-    vector<int> shipSize = {0,6,4,2,2,3};
+    vector<int> shipSize = {0,2};
     Ship HeadShip(-1,-1);
     gameShips.push_back(HeadShip);
     for(int shipid = 1; shipid<=numberOfShips; shipid++){
@@ -58,6 +67,7 @@ private:
     int rows;
     int cols;
     int numberOfShips;
+    int activeShips;
     vector<vector<string>> status;
     vector<vector<int>> position;
     vector<Ship> Ships;
@@ -73,12 +83,13 @@ public:
         position.resize(rows,vector<int>(cols,0));
         Ships = createShips();
         numberOfShips = Ships.size();
+        activeShips = numberOfShips;
     }
     bool placeShip(string &cell, int angle, int shipid){
         if(cell.size()!=2 || (angle!=0 && angle!=1)){return false;}
         int row = cell[0]-'0';
         int col = cell[1]-'0';
-        Ship ship = Ships[shipid];
+        Ship &ship = Ships[shipid];
         int len = ship.getLength();
         if(row<0 || row>=rows || col<0 || col>=cols){
             return false;
@@ -130,16 +141,38 @@ public:
         int row = cell[0]-'0';
         int col = cell[1]-'0';
         if(row<0 || row>=rows || col<0 || col>=cols){
-            return false;
+            return true;
+        }
+        if(status[row][col]!=state.unharmed){
+            return true;
         }
         status[row][col] = state.killed;
         int shipid = position[row][col];
         if(shipid==0){
-            return true;
+            return false;
         }
         status[row][col] = state.ship;
-
-
+        bool destroyed = Ships[shipid].attack();
+        if(destroyed){
+            cout<<"\n == Ship Destroyed == \n";
+            Ship &ship = Ships[shipid];
+            int strow = ship.getX();
+            int stcol = ship.getY();
+            int len = ship.getLength();
+            int angle = ship.getAngle();
+            ship.showDetails();
+            if(angle==0){for(int i = stcol; i<stcol+len; i++){status[strow][i] = to_string(shipid);}
+            }else if(angle==1){
+                for(int i=strow; i<strow+len;i++){
+                    status[i][stcol] = to_string(shipid);
+                }
+            }
+            activeShips--;
+        }
+        return false;
+    }
+    bool lost(){
+        return activeShips<=0;
     }
     template <typename T>
     void displayField(vector<vector<T>> grid){
@@ -191,29 +224,46 @@ void setGameShips(Field &player){
     cout<<"Ship Setup successful for player "<<player.name<<endl;
 }
 
-void takeShot(Field &defender){
+bool takeShot(Field &defender, int &pidx){
+    cout<<defender.name<<" current status board\n\n";
+    defender.showStatus();
     string cell;
     cout<<"Enter the row-column to attack :";
     cin>>cell;
-    int row = cell[0]
-    defender.killCell(row,col);
+    cout<<endl;
+    if(defender.killCell(cell)){
+        pidx^=1;
+        cout<<"Please choose an unattacked cell\n";
+        return false;
+    }
     defender.showStatus();
+    cout<<"Your Attack on Grid shown above:\n ------------\n";
+
+    return defender.lost();
 }
 
 void startBattle(Field &alice, Field &bob){
-    cout<<"=========Game Start==============\n\n";
+    cout<<"=========Game Start=========\n\n";
     vector<Field> player = {alice, bob};
     int pidx = 0;
     bool game = true;
     while(game){
+        cout<<"Press Enter to continue...";
+        cin.ignore();
+        cin.get();
         cout<<player[pidx].name<<" turn's\n";
-        takeShot(player[pidx^1]);
+        bool result = takeShot(player[pidx^1], pidx);
+        if(result == true){
+            cout<<"==========================\n";
+            cout<<"----- All Ships Destroyed -----";
+            cout<<(player[pidx].name)<<" wins!";
+            game = false;
+        }
         pidx = pidx^1;
     }
 }
 int main()
 {
-
     //grids for both players
     Field alice(10,10,"player 1");
     Field bob(10,10,"player 2");
