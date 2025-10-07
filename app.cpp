@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cctype> 
 using namespace std;
 
 struct states{
@@ -7,6 +8,15 @@ struct states{
     string killed = "X";
     string unharmed = ".";
 };
+
+// L3 shape for 2D support
+struct ShipShape
+{
+    string name;
+    vector<pair<int, int>> offsets; 
+};
+const ShipShape L3Shape = {"L3", {{0,0}, {0,1}, {1,0}}};
+
 class Ship{
 private:
     int shipid;
@@ -22,9 +32,15 @@ public:
         shipid = new_shipid;
         shipHealth = length;
     }
-    void showDetails(){
+    void showDetails()
+    {
         cout<<"length : "<<length;
-        cout<<", shipid : "<<shipid<<endl;
+        cout<<", shipid : "<<shipid;
+        if (angle == 2) 
+        {
+            cout << ", shape: L3";
+        }
+        cout<<endl;
     }
     int getX(){
         return corX;
@@ -83,10 +99,13 @@ public:
         position.resize(rows,vector<int>(cols,0));
         Ships = createShips();
         numberOfShips = Ships.size();
-        activeShips = numberOfShips;
+        activeShips = numberOfShips -1;
     }
     bool placeShip(string &cell, int angle, int shipid){
-        if(cell.size()!=2 || (angle!=0 && angle!=1)){return false;}
+        if (cell.size() != 2 || !isdigit(cell[0]) || !isdigit(cell[1]) || (angle != 0 && angle != 1 && angle != 2)) 
+        {
+            return false;
+        }
         int row = cell[0]-'0';
         int col = cell[1]-'0';
         Ship &ship = Ships[shipid];
@@ -94,7 +113,7 @@ public:
         if(row<0 || row>=rows || col<0 || col>=cols){
             return false;
         }
-        if(angle==0){
+        if(angle==0){ //horizontal
             int newc = col+len-1;
             if(newc>=cols){
                 return false;
@@ -107,7 +126,7 @@ public:
             for(int pos = col; pos<=newc; pos++){
                 position[row][pos] = shipid;
             }
-        }else if(angle==1){
+        }else if(angle==1){ //vertical
             int newr = row+len-1;
             if(newr>=rows){
                 return false;
@@ -119,6 +138,20 @@ public:
             }
             for(int pos = row; pos<=newr; pos++){
                 position[pos][col] = shipid;
+            }
+        }else if (angle == 2) { // L3 shape
+            if (len != 3) return false; // L3 only for length-3 ships
+            for (const auto& offset : L3Shape.offsets) {
+                int r = row + offset.first;
+                int c = col + offset.second;
+                if (r < 0 || r >= rows || c < 0 || c >= cols || position[r][c] != 0) {
+                    return false;
+                }
+            }
+            for (const auto& offset : L3Shape.offsets) {
+                int r = row + offset.first;
+                int c = col + offset.second;
+                position[r][c] = shipid;
             }
         }
         ship.setPosition(row, col ,angle);
@@ -161,10 +194,20 @@ public:
             int len = ship.getLength();
             int angle = ship.getAngle();
             ship.showDetails();
-            if(angle==0){for(int i = stcol; i<stcol+len; i++){status[strow][i] = to_string(shipid);}
+            if(angle==0)
+            {
+                for(int i = stcol; i<stcol+len; i++){
+                    status[strow][i] = to_string(shipid);
+                }
             }else if(angle==1){
                 for(int i=strow; i<strow+len;i++){
                     status[i][stcol] = to_string(shipid);
+                }
+            }else if (angle == 2) {
+                for (const auto& offset : L3Shape.offsets) {
+                    int r = strow + offset.first;
+                    int c = stcol + offset.second;
+                    status[r][c] = to_string(shipid);
                 }
             }
             activeShips--;
@@ -172,7 +215,7 @@ public:
         return false;
     }
     bool lost(){
-        return activeShips<=1;
+        return activeShips<=0;
     }
     template <typename T>
     void displayField(vector<vector<T>> grid){
@@ -213,7 +256,7 @@ void setGameShips(Field &player){
         string coordinates;
         int angle;
         cin>>coordinates;
-        cout<<"Enter angle (0 = horizontal, 1 = vertical): ";
+        cout<<"Enter angle (0 = horizontal, 1 = vertical, 2 = L3 shape): ";
         cin>>angle;
         if(!player.placeShip(coordinates,angle,shipid)){
             cout<<"Invalid positioning (try again)\n";
