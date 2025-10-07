@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 struct states{
 	std::string ship = "S";
