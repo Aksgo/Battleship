@@ -1,69 +1,9 @@
 #include <iostream>
-#include <vector>
 #include <cctype> 
+#include "../include/ShipShape.h"
+#include "../include/ship.h"
+#include "../include/ShipStates.h"
 using namespace std;
-
-struct states{
-    string ship = "S";
-    string killed = "X";
-    string unharmed = ".";
-};
-
-// L3 shape for 2D support
-struct ShipShape
-{
-    string name;
-    vector<pair<int, int>> offsets; 
-};
-const ShipShape L3Shape = {"L3", {{0,0}, {0,1}, {1,0}}};
-
-class Ship{
-private:
-    int shipid;
-    int length;
-    int shipHealth;
-    int angle; // 0 -> horizontal 1 -> vertical
-    //top/left coordinates of ship
-    int corX;
-    int corY;
-public:
-    Ship(int  new_sz, int new_shipid){
-        length = new_sz;
-        shipid = new_shipid;
-        shipHealth = length;
-    }
-    void showDetails()
-    {
-        cout<<"length : "<<length;
-        cout<<", shipid : "<<shipid;
-        if (angle == 2) 
-        {
-            cout << ", shape: L3";
-        }
-        cout<<endl;
-    }
-    int getX(){
-        return corX;
-    }
-    int getY(){
-        return corY;
-    }
-    int getLength(){
-        return length;
-    }
-    int getAngle(){
-        return angle;
-    }
-    void setPosition(int x, int y, int shipAngle){
-        corX = x;
-        corY = y;
-        angle = shipAngle;
-    }
-    bool attack(){
-        shipHealth--;
-        return shipHealth<=0;
-    }
-};
 
 vector<Ship> createShips(){
     int numberOfShips = 5;
