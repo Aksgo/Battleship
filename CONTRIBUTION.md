@@ -1,6 +1,9 @@
-#### Write Clean, non-AI code
+## Guidelines
 
-#### Work on existing issue or raise a new one if you have something new or any bug in your mind
+- Write Clean, non-AI code.
+- Work on existing issue or raise a new one if you have something new or any bug in your mind.
+- Link your PR/MR to the issue assigned to you
 
-#### Always get the issue assigned before working on it 
+
+### Thanks for Contributing 😃
 
