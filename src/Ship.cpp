@@ -1,4 +1,4 @@
-#include "../include/ship.h"
+#include "../include/Ship.h"
 #include <iostream>
 
 Ship::Ship(int  new_sz, int new_shipid){
