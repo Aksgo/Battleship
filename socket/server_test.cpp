@@ -36,7 +36,7 @@ int main(){
     sockaddr_in service;
     service.sin_family = AF_INET;
     //Inet_Pton is somehow not available
-    service.sin_addr.s_addr = INADDR_ANY; //inet_addr("127.0.0.1");
+    service.sin_addr.s_addr = INADDR_ANY; //inet_addr("127.0.0.1");//
     service.sin_port = htons(port);
     if(bind(serverSocket, (SOCKADDR*)&service, sizeof(service))==SOCKET_ERROR){
         cout<<"bind() failed :"<<WSAGetLastError()<<endl;
@@ -61,8 +61,45 @@ int main(){
         WSACleanup();
         return 1;
     }
+    cout<<"Accepted connection"<<endl;
 
-    cout<<"Accepting connection"<<endl;
+    //chat with client
+    bool state = true;
+    while(state){
+        char buffer[200];
+        int byte_count = recv(acceptSocket,buffer,200,0);
+        if(byte_count>0){
+            cout<<"Message received: "<<buffer<<endl;
+        }else{
+            state = false;
+            WSACleanup();
+        }
+        if(strcmp("shut",buffer)==0){
+            state = false;
+            cout<<"waiting for new client"<<endl;
+            acceptSocket = accept(serverSocket,NULL,NULL);
+            if(acceptSocket == INVALID_SOCKET){
+                cout<<"accept failed :"<<WSAGetLastError()<<endl;
+                WSACleanup();
+                return 1;
+            }
+            cout<<"Accepted connection"<<endl;
+            state = true;
+            continue;
+        }
+        cout<<"Please enter your message to client: ";
+        char confirmation[200];
+        cin.getline(confirmation, 200);
+        byte_count = send(acceptSocket, confirmation,  200, 0);
+        if(byte_count > 0){
+        }else{
+            state = false;
+            WSACleanup();
+        }
+        if(strcmp("shut",confirmation)==0){state = false;}
+    }
+    closesocket(acceptSocket);
+    closesocket(serverSocket);
     system("pause");
     WSACleanup();
     return 0;
