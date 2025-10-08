@@ -10,11 +10,11 @@
    git clone https://github.com/Aksgo/Battleship.git
    ```
    ```
-   cd ./BattleShip
+   cd ./BattleShip/src
    ```
 3. Run the executable
     ```
-   ./source
+   ./battleship
    ```
 
 ## Contribution
