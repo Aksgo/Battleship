@@ -1,8 +1,10 @@
 include_directories(../include)
+include_directories(include)
 
 add_library(Socket STATIC
     broadcastServer.cpp
     client.cpp
+    include/TcpServer.h TcpServer.cpp
 )
 
 add_executable(ServerTest
