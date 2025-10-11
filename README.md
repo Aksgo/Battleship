@@ -12,6 +12,9 @@
    ```
    cd ./BattleShip/src
    ```
+   ```
+   g++ *.cpp -o battleship
+   ```
 3. Run the executable
     ```
    ./battleship
