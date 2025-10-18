@@ -1,0 +1,143 @@
+{
+    "ship_presets": {
+        "classic": {
+            "description": "Traditional naval fleet",
+            "ships": [
+                {
+                    "name": "Carrier",
+                    "size": 5,
+                    "count": 1
+                },
+                {
+                    "name": "Battleship",
+                    "size": 4,
+                    "count": 1
+                },
+                {
+                    "name": "Destroyer",
+                    "size": 3,
+                    "count": 2
+                },
+                {
+                    "name": "Submarine",
+                    "size": 3,
+                    "count": 1
+                },
+                {
+                    "name": "Patrol Boat",
+                    "size": 2,
+                    "count": 2
+                }
+            ]
+        },
+        "quick_combat": {
+            "description": "Fast-paced smaller battle",
+            "ships": [
+                {
+                    "name": "Frigate",
+                    "size": 3,
+                    "count": 3
+                },
+                {
+                    "name": "Gunboat",
+                    "size": 2,
+                    "count": 4
+                }
+            ]
+        },
+        "large_battle": {
+            "description": "Extended naval engagement",
+            "ships": [
+                {
+                    "name": "Super Carrier",
+                    "size": 6,
+                    "count": 1
+                },
+                {
+                    "name": "Battleship",
+                    "size": 4,
+                    "count": 2
+                },
+                {
+                    "name": "Cruiser",
+                    "size": 3,
+                    "count": 3
+                },
+                {
+                    "name": "Patrol",
+                    "size": 2,
+                    "count": 4
+                }
+            ]
+        },
+        "asymmetric": {
+            "description": "Unequal fleet sizes for challenge",
+            "ships": [
+                {
+                    "name": "Carrier",
+                    "size": 5,
+                    "count": 1
+                },
+                {
+                    "name": "Battleship",
+                    "size": 4,
+                    "count": 1
+                },
+                {
+                    "name": "Destroyer",
+                    "size": 3,
+                    "count": 1
+                },
+                {
+                    "name": "Submarine",
+                    "size": 3,
+                    "count": 2
+                },
+                {
+                    "name": "Patrol Boat",
+                    "size": 2,
+                    "count": 3
+                }
+            ]
+        }
+    },
+    "custom_ship_templates": [
+        {
+            "name": "Stealth Fleet",
+            "description": "Focus on submarines and small ships",
+            "ships": [
+                {
+                    "name": "Attack Sub",
+                    "size": 4,
+                    "count": 2
+                },
+                {
+                    "name": "Stealth Boat",
+                    "size": 2,
+                    "count": 6
+                }
+            ]
+        },
+        {
+            "name": "Capital Ships",
+            "description": "Heavy warships only",
+            "ships": [
+                {
+                    "name": "Dreadnought",
+                    "size": 6,
+                    "count": 1
+                },
+                {
+                    "name": "Battleship",
+                    "size": 5,
+                    "count": 2
+                },
+                {
+                    "name": "Heavy Cruiser",
+                    "size": 4,
+                    "count": 2
+                }
+            ]
+        }
+    ]
+}

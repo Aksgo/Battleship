@@ -1,0 +1,81 @@
+{
+    "game_settings": {
+        "grid_size": 10,
+        "max_turns": 100,
+        "default_difficulty": "medium",
+        "default_mode": "classic",
+        "allow_cheats": false,
+        "show_hints": true
+    },
+    "ships": [
+        {
+            "name": "Carrier",
+            "type": "carrier",
+            "size": 5,
+            "symbol": "C",
+            "count": 1,
+            "description": "Aircraft carrier - largest ship"
+        },
+        {
+            "name": "Battleship",
+            "type": "battleship",
+            "size": 4,
+            "symbol": "B",
+            "count": 1,
+            "description": "Heavy battleship"
+        },
+        {
+            "name": "Destroyer",
+            "type": "destroyer",
+            "size": 3,
+            "symbol": "D",
+            "count": 2,
+            "description": "Fast attack destroyer"
+        },
+        {
+            "name": "Submarine",
+            "type": "submarine",
+            "size": 3,
+            "symbol": "S",
+            "count": 1,
+            "description": "Stealth submarine"
+        },
+        {
+            "name": "Patrol Boat",
+            "type": "patrol",
+            "size": 2,
+            "symbol": "P",
+            "count": 2,
+            "description": "Small patrol vessel"
+        }
+    ],
+    "ai_settings": {
+        "easy_delay_ms": 2000,
+        "medium_delay_ms": 1500,
+        "hard_delay_ms": 1000,
+        "expert_delay_ms": 500
+    },
+    "ui_settings": {
+        "show_animations": true,
+        "color_enabled": true,
+        "typewriter_effect": true,
+        "clear_screen_between_turns": false,
+        "show_probability_grid": false
+    },
+    "game_modes": {
+        "classic": {
+            "description": "Traditional Battleship rules",
+            "max_players": 2
+        },
+        "salvo": {
+            "description": "Fire multiple shots per turn",
+            "max_players": 2,
+            "shots_per_ship": true
+        },
+        "mine_warfare": {
+            "description": "Strategic mine placement",
+            "max_players": 2,
+            "mine_count": 5
+        }
+    }
+}
