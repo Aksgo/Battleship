@@ -15,7 +15,8 @@ Prerequisits: the [CMake Tools](https://marketplace.visualstudio.com/items?itemN
    cd ./BattleShip/src
    ```
 2. Build the project using CMake Tools. The executables are located at: `build/src/Debug/Battleship.exe`
-3. Run the executable from said location:
+
+3. Run the executable
     ```
    ./battleship
    ```
