@@ -1,6 +1,6 @@
-# 🛳️ Battleship Game (C++)
+# Battleship (C++)
 
-### A simple **command-line Battleship game** written in **C++**
+### **command-line Battleship game** written in **C++**
 ---
 
 ## Setup
