@@ -1,2 +1,18 @@
-build/*
-.vscode/*
+# CMake build folders
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled binaries and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.exe
+*.dll
+*.so
+*.pdb
+
+.vscode/
