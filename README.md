@@ -5,20 +5,20 @@
 
 ## Setup
 
-Prerequisits: the [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) extension for VS Code.
+Prerequisits: CMake and MinGW-w64 (thread support)
 
 1. Clone the repository
     ```
    git clone https://github.com/Aksgo/Battleship.git
    ```
    ```
-   cd ./BattleShip/src
+   cd ./BattleShip
    ```
 2. Build the project using CMake Tools. The executables are located at: `build/src/Debug/Battleship.exe`
 
-3. Run the executable
+3. Run the executables for game
     ```
-   ./Battleship
+   ./build/src/Battleship.exe
    ```
 
 ## Contribution
