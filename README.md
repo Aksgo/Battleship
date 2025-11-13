@@ -18,7 +18,7 @@ Prerequisits: the [CMake Tools](https://marketplace.visualstudio.com/items?itemN
 
 3. Run the executable
     ```
-   ./battleship
+   ./Battleship
    ```
 
 ## Contribution

@@ -66,8 +66,8 @@ int main(){
         std::cout << "Please enter your message to client: ";
         std::cin.getline(confirmation, sizeof(confirmation));
         int bytesSent = server.sendBytes(confirmation, sizeof(confirmation));
-        
-        state = confirmation == shutDownCmd;
+        std::string confirm = std::string(confirmation);
+        state = confirmation != shutDownCmd;
     }
     
     endBroadcast = true;
